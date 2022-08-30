@@ -2,7 +2,7 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
-    margin: 24px;
+    margin: 0 24px 24px 24px;
     padding: 25px 32px 25px 178px;
 
     background: #1E2131;
@@ -11,8 +11,21 @@
     display: flex;
 }
 
-.GameListPageCard__Component {
-    width: calc((100% - 178px) / 5);
+.GameListPageCard__Components .PageCard__Component {
+    width: calc(100%/5);
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.CheckoutPageCard__Components .PageCard__Component {
+    width: calc(100%/3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.GameListPageCard__Components {
+    display: flex;
+    width: 100%;
 }

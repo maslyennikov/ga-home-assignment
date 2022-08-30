@@ -4,7 +4,7 @@ import "../../styles.css";
 
 const Price = (props: { value: number }) => {
   return (
-    <div className="Price GameListPageCard__Component">
+    <div className="Price PageCard__Component">
       <div className="Price__aligner">{props.value}$</div>
     </div>
   );

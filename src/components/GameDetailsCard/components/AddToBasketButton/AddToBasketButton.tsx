@@ -12,10 +12,10 @@ type AddToBasketButtonProps = {
 const AddToBasketButton = ({ isAdded, onClick }: AddToBasketButtonProps) => {
   const icon = isAdded ? <CheckIcon /> : <PlusIcon />;
   const label = isAdded ? "Added" : "Add to basket";
-  const variant = isAdded ? "primary" : undefined;
+  const variant = isAdded ? undefined : "primary";
 
   return (
-    <div className="GameListPageCard__Component">
+    <div className="PageCard__Component">
       <Button icon={icon} variant={variant} onClick={onClick}>
         {label}
       </Button>

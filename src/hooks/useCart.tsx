@@ -4,16 +4,16 @@ import useGames from "./useGames";
 
 type CartContextState = {
   cartGames: Array<CartGame>;
-  pageGames: Array<PageGame>;
-  addGame: ((gameId: string, quantity: number) => void) | null;
-  removeGame?: ((gameId: string, quantity: number) => void) | null;
+  addGame?: (gameId: string, quantity: number) => void;
+  removeGame?: (gameId: string) => void;
+  isAdded?: (gameId: string) => boolean;
 };
 
 const CartContext = React.createContext<CartContextState>({
   cartGames: [],
-  pageGames: [],
-  addGame: null,
-  removeGame: null,
+  addGame: undefined,
+  removeGame: undefined,
+  isAdded: undefined,
 });
 
 export const CartContextProvider = ({
@@ -51,17 +51,21 @@ export const CartContextProvider = ({
     }
   };
 
-  const removeGame = (gameId: string, quantity: number) => {
-    setCartGames(cartGames.filter((game) => game.id === gameId));
+  const removeGame = (gameId: string): void => {
+    setCartGames(cartGames.filter((game) => game.id !== gameId));
+  };
+
+  const isAdded = (gameId: string): boolean => {
+    return cartGames.findIndex((game) => game.id === gameId) > -1;
   };
 
   return (
     <CartContext.Provider
       value={{
         cartGames,
-        pageGames,
         addGame,
         removeGame,
+        isAdded,
       }}
     >
       {children}

@@ -12,7 +12,7 @@ const ratingScale = [1, 2, 3, 4, 5];
 
 const Rating = ({ value }: RatingProps) => {
   return (
-    <div className="GameListPageCard__Component">
+    <div className="PageCard__Component">
       <div>
         <div className="Rating__Label">Rating</div>
         <div>

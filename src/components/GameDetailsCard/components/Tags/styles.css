@@ -8,6 +8,10 @@
     color: #14F0AF;
 }
 
+.Tags__Aligner {
+    width: 100%;
+}
+
 .Tags__Container {
     display: flex;
 }

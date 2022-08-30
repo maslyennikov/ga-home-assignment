@@ -4,6 +4,7 @@
 
 .CheckoutPage-GameList-container {
   flex-grow: 1;
+  margin-right: 200px;
 }
 
 .CheckoutPage-Overview-container {
@@ -11,6 +12,7 @@
   border-radius: 16px;
   padding: 32px;
   width: 420px;
+  height: 308px;
   flex-shrink: 0;
 }
 
@@ -18,4 +20,33 @@
   border: none;
   border-top: 1px solid #2f344b;
   margin: 42px 0;
+}
+
+.CheckoutPageCard__Components {
+  display: flex;
+  width: 100%;
+}
+
+.CheckoutPage__OrderValue {
+  font-size: 24px;
+  line-height: 32px;
+  margin-bottom: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #F5F5F5;
+}
+
+.CheckoutPage__TotalItems {
+  font-size: 24px;
+  font-weight: 100;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #F5F5F5;
 }
