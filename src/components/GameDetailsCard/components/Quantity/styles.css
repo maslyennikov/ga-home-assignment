@@ -1,0 +1,16 @@
+.Quantity__label {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+
+    color: #14F0AF;
+}
+
+.Quantity__buttonsContainer {
+    display: flex;
+}
+
+.Quantity__value {
+    margin: 10px 5px;
+}

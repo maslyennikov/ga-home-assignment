@@ -1,11 +1,14 @@
 import React, { memo } from "react";
+import { useHistory } from "react-router-dom";
+
 import Layout from "../../components/Layout/Layout";
 import Button from "../../components/Button/Button";
-import { useHistory } from "react-router-dom";
 import "./styles.css";
+import useCart from "../../hooks/useCart";
 
 const CheckoutPage = memo(() => {
   const history = useHistory();
+  const { cartGames } = useCart();
 
   return (
     <Layout

@@ -20,20 +20,20 @@ You will also see any lint errors in the console.
 
 This project includes a [miragejs](https://miragejs.com/) api mock that starts with the project.
 
-The API mock provides a set of endpoints so you can retrieve the games and currency rate data.
+The API mock provides a set of endpoints so you can retrieve the gamesData and currency rate data.
 
 ### Routes
 
-Return all games
+Return all gamesData
 
 ```
-GET "/api/games"
+GET "/api/gamesData"
 ```
 
 Return one specific game
 
 ```
-GET "/api/games/:gameId"
+GET "/api/gamesData/:gameId"
 ```
 
 Return all available currency rates
@@ -54,9 +54,9 @@ Example:
 
 ```js
 window
-  .fetch("/api/games")
+  .fetch("/api/gamesData")
   .then((response) => response.json())
-  .then((games) => {});
+  .then((gamesData) => {});
 ```
 
 ### Starting point

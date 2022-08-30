@@ -1,0 +1,18 @@
+.GameListPageCard__Container {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    margin: 24px;
+    padding: 25px 32px 25px 178px;
+
+    background: #1E2131;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.048432);
+    border-radius: 16px;
+    display: flex;
+}
+
+.GameListPageCard__Component {
+    width: calc((100% - 178px) / 5);
+    display: flex;
+    align-items: center;
+}

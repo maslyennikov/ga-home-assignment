@@ -2,7 +2,7 @@
 
 The purpose of this assignment is for candidates to showcase their technical skills during the interview process. The assignment should take no longer than 3 hours. Please let us know when you submit your assignment how long it took.
 
-In this assignment you will be creating a game store webpage, where users can see a list of mobile games and add them to a cart, and then be able to go to the checkout page and manage the games in their cart.
+In this assignment you will be creating a game store webpage, where users can see a list of mobile gamesData and add them to a cartGames, and then be able to go to the checkout page and manage the gamesData in their cartGames.
 
 ## Requirements
 
@@ -14,16 +14,16 @@ We would like you to implement the following two pages:
 
 ##### Game list page
 
-- The user should be able to navigate to the "/list" path and see all the games provided in the API endpoint "/api/games".
+- The user should be able to navigate to the "/list" path and see all the gamesData provided in the API endpoint "/api/gamesData".
 - In that list the user will be able to see each game in a tile like in the designs provided with name, tags, release date, rating and pricing.
-- The user should be able to select the amount of units of the game they want and be able to add/remove from their cart.
-- The "checkout" button in the page header should have a badge with the number of games selected and not the amount of units.
+- The user should be able to select the amount of units of the game they want and be able to add/remove from their cartGames.
+- The "checkout" button in the page header should have a badge with the number of gamesData selected and not the amount of units.
 - The user should be able to change the currency in the top right selector and see the pricing across the page change to reflect the selected currency
 
 ##### Checkout page
 
-- When the user navigates to the checkout page, they should see all the games they have selected in the previous page and the number of units.
-- The user should be able to change the number of units selected and remove games from the cart and see the "Order value" and "Total item" numbers changed
+- When the user navigates to the checkout page, they should see all the gamesData they have selected in the previous page and the number of units.
+- The user should be able to change the number of units selected and remove gamesData from the cartGames and see the "Order value" and "Total item" numbers changed
 
 ##### Testing
 
@@ -32,7 +32,7 @@ We would like you to write at least 2 behavior tests of GameListPage.
 ## Important aspects of assignment
 
 - Different versions of GameDetailsCard is required for GameListPage and CheckoutPage. We would like to see how you could use component composition to achieve desired result.
-- Price of games is loaded in USD, but it needs to be displayed in selected currency. It is important that price would be calculated just once, when currency changes, and not every time when UI re-renders.
+- Price of gamesData is loaded in USD, but it needs to be displayed in selected currency. It is important that price would be calculated just once, when currency changes, and not every time when UI re-renders.
 
 ## What we will be assessing?
 
@@ -54,7 +54,7 @@ You can find the detailed designs for this assignment here https://www.figma.com
 ## Guidelines
 
 - You will have to use the project skeleton provided to you as a starting port, but you can use or modify anything inside the "src" file to achieve the desired end result
-- To load data you can use the native "fetch" api to load the games and currency rates.
+- To load data you can use the native "fetch" api to load the gamesData and currency rates.
 - For CSS you can use the basic css modules from create-react-app https://create-react-app.dev/docs/adding-a-stylesheet
 - If you find that provided components could be improved, feel free to change them as necessary.
 

@@ -1,7 +1,10 @@
 import React, { useCallback } from "react";
+
 import Button from "components/Button/Button";
 import { ReactComponent as AddIcon } from "assets/icons/add.svg";
 import { ReactComponent as SubtractIcon } from "assets/icons/subtract.svg";
+import "./styles.css";
+import "../../styles.css";
 
 type QuantityProps = {
   value: number;
@@ -10,7 +13,9 @@ type QuantityProps = {
 
 const Quantity = ({ value, onChange }: QuantityProps) => {
   const handleDecreaseClick = useCallback(() => {
-    onChange(value - 1);
+    if (value > 1) {
+      onChange(value - 1);
+    }
   }, [onChange, value]);
 
   const handleIncreaseClick = useCallback(() => {
@@ -18,16 +23,18 @@ const Quantity = ({ value, onChange }: QuantityProps) => {
   }, [onChange, value]);
 
   return (
-    <div className="Quantity">
-      <div className="Quantity__label">Quantity</div>
+    <div className="GameListPageCard__Component">
       <div>
-        <Button onClick={handleDecreaseClick} variant="secondary">
-          <SubtractIcon />
-        </Button>
-        <div>{value}</div>
-        <Button onClick={handleIncreaseClick} variant="secondary">
-          <AddIcon />
-        </Button>
+        <div className="Quantity__label">Quantity</div>
+        <div className="Quantity__buttonsContainer">
+          <Button onClick={handleDecreaseClick} variant="secondary">
+            <SubtractIcon />
+          </Button>
+          <div className={"Quantity__value"}>{value}</div>
+          <Button onClick={handleIncreaseClick} variant="secondary">
+            <AddIcon />
+          </Button>
+        </div>
       </div>
     </div>
   );

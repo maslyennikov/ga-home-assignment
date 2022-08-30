@@ -6,6 +6,7 @@ import Button from "./../Button/Button";
 import { ReactComponent as Cart } from "./../../assets/icons/cart.svg";
 import { ReactComponent as ArrowBack } from "./../../assets/icons/arrow-back.svg";
 import "./styles.css";
+import useCart from "../../hooks/useCart";
 
 export type AppBarProps = {
   title: string;
@@ -16,6 +17,7 @@ export type AppBarProps = {
 };
 
 const AppBar: FC<AppBarProps> = memo(({ title, backButton }) => {
+  const { cartGames } = useCart();
   const history = useHistory();
   const handleOnChangeCurrency = console.log;
 
@@ -43,7 +45,7 @@ const AppBar: FC<AppBarProps> = memo(({ title, backButton }) => {
             icon={
               <div className="AppBar__CartIconContainer">
                 <Cart />
-                <div className="AppBar__CartItemsBadge">0</div>
+                <div className="AppBar__CartItemsBadge">{cartGames.length}</div>
               </div>
             }
             onClick={() => history.push("/checkout")}

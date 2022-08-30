@@ -1,5 +1,6 @@
-import React, { memo, FC, ReactNode } from "react";
 import clsx from "clsx";
+import React, { memo, FC, ReactNode } from "react";
+
 import "./styles.css";
 
 const Button: FC<{

@@ -1,0 +1,20 @@
+.GeneralInfo__ReleaseDate {
+    /* FYI: I was not able to extract font-family from Figma */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 4px 0;
+
+    color: #13F0AF;
+}
+
+.GeneralInfo__Title {
+    font-size: 18px;
+    line-height: 18px;
+    padding: 4px 0;
+
+    color: #FFFFFF;
+}
+
+

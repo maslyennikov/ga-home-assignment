@@ -3,7 +3,7 @@ import { games } from "./games";
 
 let server = new Server();
 
-server.get("/api/games", { games });
+server.get("/api/gamesData", { games });
 
 games.forEach((game) => {
   server.get(`/api/games/${game.id}`, game);
