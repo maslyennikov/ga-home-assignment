@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import "./styles.css";
 import "../../styles.css";
 
@@ -7,7 +7,7 @@ type GeneralInfoProps = {
   releaseDate: string;
 };
 
-const GeneralInfo = ({ title, releaseDate }: GeneralInfoProps) => (
+const GeneralInfo: FC<GeneralInfoProps> = ({ title, releaseDate }) => (
   <div className="PageCard__Component">
     <div className="GeneralInfo__Aligner">
       <div className="GeneralInfo__ReleaseDate">{releaseDate}</div>

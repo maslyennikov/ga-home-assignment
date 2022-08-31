@@ -3,13 +3,21 @@ import React, { memo, FC, ReactNode } from "react";
 
 import "./styles.css";
 
-const Button: FC<{
+type ButtonProps = {
   onClick: () => void;
   variant?: "link" | "secondary" | "primary";
   fullWidth?: boolean;
   icon?: ReactNode;
   children?: ReactNode;
-}> = ({ children, onClick, variant, icon, fullWidth }) => {
+};
+
+const Button: FC<ButtonProps> = ({
+  children,
+  onClick,
+  variant,
+  icon,
+  fullWidth,
+}) => {
   const className = clsx({
     Button: true,
     "Button--link": variant === "link",
@@ -20,7 +28,7 @@ const Button: FC<{
 
   return (
     <button className={className} onClick={onClick}>
-      {!!icon && <div className="Button__Icon">{icon}</div>}
+      {!!icon ? <div className="Button__Icon">{icon}</div> : null}
 
       {children}
     </button>

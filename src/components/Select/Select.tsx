@@ -1,18 +1,24 @@
-import React, { FC, memo } from "react";
+import React, { ChangeEvent, FC, memo } from "react";
 import "./styles.css";
 
-const Select: FC<{
-  value: any;
-  onChange: any;
+type SelectProps = {
+  value: string;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   options: {
     label: string;
-    value: any;
+    value: string;
   }[];
-}> = ({ value, onChange, options }) => {
+};
+
+const Select: FC<SelectProps> = ({ value, onChange, options }) => {
   return (
     <select className="Select" value={value} onChange={onChange}>
       {options.map((option, index) => (
-        <option key={option.value + index} value={option.label}>
+        <option
+          key={`dropDownValue${option.value}${index}`}
+          value={option.value}
+          label={option.label}
+        >
           {option.label}
         </option>
       ))}

@@ -11,32 +11,48 @@ import Tags from "../../components/GameDetailsCard/components/Tags/Tags";
 import Quantity from "../../components/GameDetailsCard/components/Quantity/Quantity";
 import Price from "../../components/GameDetailsCard/components/Price/Price";
 import AddToBasketButton from "../../components/GameDetailsCard/components/AddToBasketButton/AddToBasketButton";
+import { Status } from "../../types";
 
 const GameListPage = memo(() => {
-  const { pageGames, changeListPageQuantity } = useGames();
-  const { addGame, isAdded } = useCart();
+  const { games, status, changeListQuantity } = useGames();
+  const { cartGames, addGame, isAdded, updateQuantity } = useCart();
+
+  if (status === Status.ERROR) {
+    return <>An error occurred, please refresh the page.</>;
+  } else if (status !== Status.FETCHED) {
+    return <>Loading...</>;
+  }
 
   return (
     <Layout title="Games">
-      {pageGames.map((game) => (
-        <GameDetailsCard>
-          <Image url={game.artworkUrl} />
+      {Object.keys(games).map((gameId) => (
+        <GameDetailsCard key={`GameCard_${gameId}`}>
+          <Image url={games[gameId].artworkUrl} />
           <div className="GameListPageCard__Components">
-            <GeneralInfo title={game.name} releaseDate={game.releaseDate} />
-            <Rating value={game.rating} />
-            <Tags tags={game.tags} />
+            <GeneralInfo
+              title={games[gameId].name}
+              releaseDate={games[gameId].releaseDate}
+            />
+            <Rating value={games[gameId].rating} />
+            <Tags tags={games[gameId].tags} />
             <Quantity
-              value={game.quantity.listQuantity}
+              value={
+                isAdded(gameId) ? cartGames[gameId] : games[gameId].quantity
+              }
               onChange={(quantity) => {
-                changeListPageQuantity?.(game.id, quantity);
+                if (!isAdded(gameId)) {
+                  changeListQuantity(gameId, quantity);
+                } else {
+                  updateQuantity(gameId, quantity);
+                }
               }}
             />
-            <Price value={game.price} />
+            <Price value={games[gameId].price} />
             <AddToBasketButton
-              isAdded={isAdded?.(game.id) || false}
+              isAdded={isAdded(gameId) || false}
               onClick={() => {
-                addGame?.(game.id, game.quantity.listQuantity);
-                changeListPageQuantity?.(game.id, 1);
+                addGame(gameId, games[gameId].quantity);
+                changeListQuantity(gameId, 1);
               }}
             />
           </div>

@@ -17,6 +17,8 @@
 }
 
 .Tags__Tag {
+    display: flex;
+    align-items: center;
     padding: 4px 8px;
     margin: 0 2px;
     background: #151829;

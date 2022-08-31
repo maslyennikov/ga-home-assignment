@@ -1,98 +1,100 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import { Currency, Game, PageGame } from "../types";
-import { ratesInitialState } from "../constants";
+import { Currency, Game, Status } from "../types";
+import { GAMES_URL, RATES_URL, ratesInitialState } from "../constants";
 
 type GamesContextState = {
-  pageGames: Array<PageGame>;
-  changeListPageQuantity: ((gameId: string, quantity: number) => void) | null;
-  changeCheckoutPageQuantity:
-    | ((gameId: string, quantity: number) => void)
-    | null;
+  games: Record<string, Game>;
   rates: Record<Currency, number>;
-};
+  activeCurrency: Currency;
+  status: Status;
 
+  setActiveCurrency: (currency: Currency) => void;
+  changeListQuantity: (gameId: string, quantity: number) => void;
+};
 type GameContextProviderProps = {
   children: React.ReactNode;
-  gamesData: Array<Game> | null;
-  rates: Record<Currency, number> | null;
 };
 
-const GamesContext = React.createContext<GamesContextState>({
-  pageGames: [],
-  changeListPageQuantity: null,
-  changeCheckoutPageQuantity: null,
+const initialGameContext: GamesContextState = {
+  games: {},
+  activeCurrency: Currency.USD,
   rates: ratesInitialState,
-});
+  status: Status.IDLE,
+  setActiveCurrency: () => null,
+  changeListQuantity: () => null,
+};
 
-export const GameContextProvider = ({
-  children,
-  gamesData,
-  rates: ratesData,
-}: GameContextProviderProps) => {
-  const [pageGames, setPageGames] = useState<Array<PageGame>>([]);
+const GamesContext = React.createContext<GamesContextState>(initialGameContext);
+
+export const GameContextProvider = ({ children }: GameContextProviderProps) => {
+  const [status, setStatus] = useState<Status>(Status.IDLE);
+  const [activeCurrency, setActiveCurrency] = useState<Currency>(Currency.USD);
+  const [games, setGames] = useState<Record<string, Game>>({});
   const [rates, setRates] = useState<Record<Currency, number>>(
     ratesInitialState
   );
 
   useEffect(() => {
-    if (ratesData) {
-      setRates(ratesData);
-    }
-  }, [ratesData]);
-  useEffect(() => {
-    if (gamesData) {
-      setPageGames(
-        gamesData.map((game) => ({
-          ...game,
-          quantity: { checkoutQuantity: 1, listQuantity: 1 },
-        }))
+    const fetchData = async () => {
+      setStatus(Status.FETCHING);
+      const [gamesResponse, ratesResponse] = await Promise.all([
+        fetch(GAMES_URL),
+        fetch(RATES_URL),
+      ]);
+
+      const ratesData = await ratesResponse.json();
+      const gamesData = await gamesResponse.json();
+
+      const formattedData: Record<string, Game> = gamesData.games.reduce(
+        (acc: Record<string, Game>, game: Game & { id: string }) => ({
+          [game.id]: {
+            artworkUrl: game.artworkUrl,
+            name: game.name,
+            price: game.price,
+            rating: game.rating,
+            releaseDate: game.releaseDate,
+            tags: game.tags,
+            quantity: 1,
+          },
+          ...acc,
+        }),
+        {}
       );
-    }
-  }, [gamesData]);
+      setGames(formattedData);
+      setRates(ratesData);
+      setStatus(Status.FETCHED);
+    };
 
-  const changeListPageQuantity = (gameId: string, quantity: number) => {
-    const updatedPageGames = pageGames.map((game) =>
-      game.id === gameId
-        ? {
-            ...game,
-            quantity: {
-              checkoutQuantity: game.quantity.checkoutQuantity,
-              listQuantity: quantity,
-            },
-          }
-        : game
-    );
+    fetchData().catch((error) => {
+      setStatus(Status.ERROR);
+      throw new Error(error);
+    });
+  }, []);
 
-    if (updatedPageGames) {
-      setPageGames(updatedPageGames);
-    }
-  };
-  const changeCheckoutPageQuantity = (gameId: string, quantity: number) => {
-    const updatedPageGames = pageGames.map((game) =>
-      game.id === gameId
-        ? {
-            ...game,
-            quantity: {
-              listQuantity: game.quantity.listQuantity,
-              checkoutQuantity: quantity,
-            },
-          }
-        : game
-    );
+  const changeListQuantity = useCallback(
+    (gameId: string, quantity: number) => {
+      const updatedPageGames = {
+        ...games,
+        [gameId]: { ...games[gameId], quantity },
+      };
 
-    if (updatedPageGames) {
-      setPageGames(updatedPageGames);
-    }
-  };
+      if (updatedPageGames) {
+        setGames(updatedPageGames);
+      }
+    },
+    [games]
+  );
 
   return (
     <GamesContext.Provider
       value={{
-        pageGames,
-        changeListPageQuantity,
-        changeCheckoutPageQuantity,
+        games: games,
+        changeListQuantity,
+        activeCurrency,
+        setActiveCurrency,
         rates,
+        status,
       }}
     >
       {children}

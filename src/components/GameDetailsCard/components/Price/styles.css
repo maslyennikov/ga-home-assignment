@@ -10,9 +10,9 @@
     color: #F5F5F5;
 }
 
-.Price__aligner{
+.Price__Aligner{
     min-width: 120px;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 

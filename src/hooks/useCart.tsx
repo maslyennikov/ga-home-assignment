@@ -1,63 +1,58 @@
-import React, { useContext, useState } from "react";
-import { CartGame, PageGame } from "../types";
-import useGames from "./useGames";
+import React, { useCallback, useContext, useState } from "react";
 
 type CartContextState = {
-  cartGames: Array<CartGame>;
-  addGame?: (gameId: string, quantity: number) => void;
-  removeGame?: (gameId: string) => void;
-  isAdded?: (gameId: string) => boolean;
+  cartGames: Record<string, number>;
+  addGame: (gameId: string, quantity: number) => void;
+  removeGame: (gameId: string) => void;
+  updateQuantity: (gameId: string, quantity: number) => void;
+  isAdded: (gameId: string) => boolean;
 };
 
-const CartContext = React.createContext<CartContextState>({
-  cartGames: [],
-  addGame: undefined,
-  removeGame: undefined,
-  isAdded: undefined,
-});
-
-export const CartContextProvider = ({
-  children,
-}: {
+type CartContextProviderProps = {
   children: React.ReactNode;
-}) => {
-  const [cartGames, setCartGames] = useState<Array<CartGame>>([]);
-  const { pageGames } = useGames();
+};
 
-  const addGame = (gameId: string, quantity: number) => {
-    if (cartGames.findIndex((game) => game.id === gameId) === -1) {
-      const gameDetails = pageGames.find((game) => game.id === gameId);
-      if (gameDetails) {
-        setCartGames([
-          ...cartGames,
-          {
-            ...gameDetails,
-            quantity,
-          },
-        ]);
-      } else {
-        throw new Error("invalid gameId");
-      }
-    } else {
-      const updatedCart = cartGames.map((game) => {
-        if (game.id === gameId) {
-          return { ...game, quantity: game.quantity + quantity };
-        }
+const initialCartContext: CartContextState = {
+  cartGames: {},
+  addGame: () => null,
+  removeGame: () => null,
+  updateQuantity: () => null,
+  isAdded: () => false,
+};
 
-        return game;
-      });
+const CartContext = React.createContext<CartContextState>(initialCartContext);
 
-      setCartGames(updatedCart);
-    }
-  };
+export const CartContextProvider = ({ children }: CartContextProviderProps) => {
+  const [cartGames, setCartGames] = useState<Record<string, number>>({});
 
-  const removeGame = (gameId: string): void => {
-    setCartGames(cartGames.filter((game) => game.id !== gameId));
-  };
+  const addGame = useCallback(
+    (gameId: string, quantity: number): void => {
+      setCartGames({ ...cartGames, [gameId]: quantity });
+    },
+    [cartGames]
+  );
 
-  const isAdded = (gameId: string): boolean => {
-    return cartGames.findIndex((game) => game.id === gameId) > -1;
-  };
+  const removeGame = useCallback(
+    (gameId: string): void => {
+      const cartGamesClone = { ...cartGames };
+      delete cartGamesClone[gameId];
+
+      setCartGames(cartGamesClone);
+    },
+    [cartGames]
+  );
+
+  const isAdded = useCallback(
+    (gameId: string): boolean => !!cartGames[gameId],
+    [cartGames]
+  );
+
+  const updateQuantity = useCallback(
+    (gameId: string, quantity: number) => {
+      setCartGames({ ...cartGames, [gameId]: quantity });
+    },
+    [cartGames]
+  );
 
   return (
     <CartContext.Provider
@@ -66,6 +61,7 @@ export const CartContextProvider = ({
         addGame,
         removeGame,
         isAdded,
+        updateQuantity,
       }}
     >
       {children}
